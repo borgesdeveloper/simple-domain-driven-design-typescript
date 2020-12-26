@@ -1,0 +1,1 @@
+# simple-driven-domain-design-typescript

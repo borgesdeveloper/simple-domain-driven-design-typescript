@@ -2,9 +2,13 @@ import { inject, injectable } from 'tsyringe'
 import { Md5 } from 'md5-typescript'
 import { IUserService } from 'src/application/users/iuser-service'
 import { User } from '@core/users/user-model'
+import { Controller } from '@infrastructure/http/decorators/controller-decorator'
+import { Delete, Get, Post, Put } from '@infrastructure/http/decorators/route-decorators'
+import { Request, ResponseToolkit } from '@hapi/hapi'
 
 @injectable()
-export default class UserController {
+@Controller('/v1/users')
+export class UserController {
   public userService?: IUserService
 
   constructor (
@@ -12,7 +16,11 @@ export default class UserController {
     this.userService = userService
   }
 
-  public async getAll (request: any, http: any) {
+  @Get({
+    path:'',
+    authorization: true
+  })
+  public async getAll (request : Request, http: ResponseToolkit) {
     try {
       const data = await this.userService?.getAll()
       return http.response({
@@ -25,7 +33,11 @@ export default class UserController {
     }
   }
 
-  public async getById (request: any, http: any) {
+  @Get({
+    path:'{id}',
+    authorization: true
+  })
+  public async getById (request : Request, http: ResponseToolkit) {
     const params = request.query
 
     try {
@@ -46,7 +58,11 @@ export default class UserController {
     }
   }
 
-  public async create (request: any, http: any) {
+  @Post({
+    path:'',
+    authorization: true
+  })
+  public async create (request : Request, http: ResponseToolkit) {
     try {
       const user = request.payload as User
       user.password = Md5.init(user.password)
@@ -61,7 +77,11 @@ export default class UserController {
     }
   }
 
-  public async update (request: any, http: any) {
+  @Put({
+    path:'',
+    authorization: true
+  })
+  public async update (request : Request, http: ResponseToolkit) {
     try {
       const user = request.payload as User
       const data = await this.userService?.update(user)
@@ -75,7 +95,11 @@ export default class UserController {
     }
   }
 
-  public async remove (request: any, http: any) {
+  @Delete({
+    path:'',
+    authorization: true
+  })
+  public async remove (request : Request, http: ResponseToolkit) {
     try {
       const params = request.query
       const data = await this.userService?.removeById(params.id)

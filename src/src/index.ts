@@ -1,14 +1,14 @@
 import 'reflect-metadata'
 import * as dotenv from 'dotenv'
-import Routes from 'src/presentation/routes'
 import IocResolver from '@infrastructure/injections/ioc-resolver'
+import routes from '@main/routes'
 
 dotenv.config()
 
-async function Init () {
+async function init () {
   const ioc = new IocResolver()
   await ioc.resolve()
-  await Routes()
+  await routes()
 }
 
-Init().catch((error) => console.log(error))
+init().catch((error) => console.log(error))

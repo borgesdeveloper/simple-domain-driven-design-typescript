@@ -53,13 +53,12 @@ export class UserService implements IUserService {
     }
   }
 
-  async remove (user: User) {
+  async remove (user: User) : Promise<User>{
     try {
       await this.dataConnection.startTransaction()
-
       await this.userRepository.remove(user.id)
-
       await this.dataConnection.commitTransaction()
+      return await user;
     } catch (error) {
       await this.dataConnection.rollbackTransaction()
       throw error

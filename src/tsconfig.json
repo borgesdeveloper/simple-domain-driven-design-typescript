@@ -2,6 +2,9 @@
   "compileOnSave": true,
   "compilerOptions": {
     "baseUrl": "./",
+    "types": [
+      "node", "mocha", "chai"
+    ],
     "lib": ["es5", "es6", "ES2018"],
     "outDir": "build",
     "allowSyntheticDefaultImports": true,
@@ -26,7 +29,7 @@
     "paths": {
       "@core/*": ["./src/domain/*"],
       "@infrastructure/*": ["./src/infrastructure/*"],
-      "@services/*": ["./src/aplication/*"],
+      "@services/*": ["./src/application/*"],
       "@controllers/*": ["src/presentation/controllers/*"],
       "@main/*": ["src/presentation/*"],
     }

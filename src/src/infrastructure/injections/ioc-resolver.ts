@@ -1,6 +1,5 @@
-import { AuthController } from "@controllers/auth/auth-controller"
-import UserController from "@controllers/users/user-controller"
 import { User } from "@core/users/user-model"
+import DataConnection from "@infrastructure/data/adapters/connections/data-connection"
 import { UserRepository } from "@infrastructure/repositories/users/user-repository"
 import { AuthService } from "src/application/auth/auth-service"
 import { UserService } from "src/application/users/user-service"
@@ -9,17 +8,12 @@ import { createConnection, getConnectionOptions } from "typeorm"
 
 
 export default class IocResolver{
+    
     public async resolve(){
 
-
-        container.register('AuthController', {
-            useClass: AuthController,
+        container.register('IDataConnection',{
+            useClass: DataConnection
         })
-
-        container.register('UserController', {
-            useClass: UserController,
-        })
-        
         container.register('IAuthService', {
             useClass: AuthService,
         })

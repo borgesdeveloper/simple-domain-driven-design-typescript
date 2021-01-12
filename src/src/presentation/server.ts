@@ -2,12 +2,9 @@ import Hapi from '@hapi/hapi'
 import * as dotenv from 'dotenv'
 
 dotenv.config()
-
-async function InitServer () {
+async function initServer () {
   const server = new Hapi.Server()
-
   server.settings.port = process.env.PORT || 3333
-
   server.settings.routes = {
     cors: {
       origin: ['*'],
@@ -18,9 +15,7 @@ async function InitServer () {
   }
 
   await server.register(require('@hapi/jwt'))
-
   server.auth.strategy('authjwt', 'jwt', {
-
     keys: process.env.SECRET_KEY as string,
 
     verify: {
@@ -32,6 +27,7 @@ async function InitServer () {
     },
 
     validate: (token: any, request: any, h: any) => {
+      console.log(request);
       const result = {} as any
       const TOKEN = token.token
 
@@ -47,10 +43,7 @@ async function InitServer () {
   })
 
   server.auth.default('authjwt')
-
   server.start()
-
   return server
 }
-
-export default InitServer
+export default initServer
